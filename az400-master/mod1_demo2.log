@@ -1,0 +1,14 @@
+az extension add --name azure-devops
+
+az devops project list -o table
+
+az pipelines list -p 'Parts Unlimited' -o table
+az pipelines build definition show --id 1 -p 'Parts Unlimited'
+
+az repos create --name azcli.demo.repo -p 'Parts Unlimited'
+
+az repos list -p 'Parts Unlimited' --output table 
+
+
+//set and get defaults
+

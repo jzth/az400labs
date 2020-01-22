@@ -1,0 +1,7 @@
+#hints
+
+#in fork repo step use the repo from comments (repo from instructions doesn't exist)
+
+#create separate PUBLIC project on dev.azure.com
+#add service connection to authorize az pipelines to github (using oauth)
+#check 

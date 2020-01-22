@@ -1,0 +1,6 @@
+The template deployment failed with error: 
+'The resource with id: '/subscriptions/273482d2-4a52-46fc-95bc-37c5d2a105d8/resourceGroups/puppet/providers/Microsoft.Compute/virtualMachines/ppnodejz' 
+failed validation with message: 
+'The requested size for resource '/subscriptions/273482d2-4a52-46fc-95bc-37c5d2a105d8/resourceGroups/puppet/providers/Microsoft.Compute/virtualMachines/ppnodejz' is currently not available in location 'westeurope' zones '' for subscription '273482d2-4a52-46fc-95bc-37c5d2a105d8'. 
+Please try another size or deploy to a different location or zones. See https://aka.ms/azureskunotavailable 
+for details.'.'. (Code: InvalidTemplateDeployment)

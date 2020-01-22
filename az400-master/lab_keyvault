@@ -1,0 +1,54 @@
+az ad sp create-for-rbac -n mysecapp
+
+{
+  "appId": "01e41192-b2b3-4002-94d0-e8b26cbfe7a9",
+  "displayName": "mysecapp",
+  "name": "http://mysecapp",
+  "password": "d414ebb1-3d20-4cd8-9080-674814e4c30e",
+  "tenant": "b55cccde-23ed-4441-b4fb-5e4cd7d53890"
+}
+
+az account show
+{
+  "environmentName": "AzureCloud",
+  "id": "273482d2-4a52-46fc-95bc-37c5d2a105d8",
+  "isDefault": true,
+  "name": "core",
+  "state": "Enabled",
+  "tenantId": "b55cccde-23ed-4441-b4fb-5e4cd7d53890",
+  "user": {
+    "name": "jz@theskills.cloud",
+    "type": "user"
+  }
+}
+
+az group create --name azkeyvalut --location westeurope
+az keyvault create --location westeurope --name mykv --resource-group azkeyvalut
+
+#result: created kv with name": "jzmykv"
+
+
+#Create access policy
+#Create secret
+    name: sqldbpassword
+    value: 37c5d2a105d8
+
+ #check policy
+ az keyvault show -n jzmykv
+
+#update resource group in variables
+
+
+
+
+
+#register DataFactory provider
+az provider register --namespace  Microsoft.DataFactory
+#check if registered
+az provider show -n Microsoft.DataFactory -o table
+
+
+az provider register --namespace Microsoft.DBforMySQL
+#check if registered
+az provider show -n Microsoft.DBforMySQL -o table
+

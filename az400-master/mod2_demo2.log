@@ -1,0 +1,36 @@
+#Install GitVersion extension to Azure DevOps 
+
+Add a new Yaml Build pipeline with following content:
+
+trigger:
+- master
+- feature/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+
+
+  #save and run + commit directly to master branch
+  #edit pipeline + search and include GitVersion tasks
+
+
+  #Add feature branch
+  #build master and feature branch
+  #Add a tag to master v1.0.0.0
+  #run master pipeline check build for recalculated version
+example:
+  #1.0.0 Update azure-pipelines.yml for Azure Pipelines
+
+
+
+
+

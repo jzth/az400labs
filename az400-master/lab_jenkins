@@ -1,0 +1,16 @@
+
+pipeline integration bug:
+
+https://github.com/microsoft/azure-pipelines-tasks/issues/11876
+
+Update on above issue, after downgraded to Jenkins version 2.164.3 and TFS plugin 5.142.0 , 
+i was able to build my pipeline successfully. Even though it is a bug in Jenkins, 
+later point of time it will come as an issue. 
+So this issue needs to be fixed.Please let me know if any updates.
+
+how to overcome
+1. go to http://localhost:8080/configureSecurity/
+2. change *Access Control* to  Logged-in users can do anything 
+3. disable CSRF protection 
+
+Run the pipeline again

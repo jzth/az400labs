@@ -1,0 +1,79 @@
+extension list --output table
+extension update --name azure-devops
+
+az repos list --output table
+
+#clone MyWebApp Repo 
+# keep in mind one repo for project or amend devops cli commands to include --repository name
+#navigate to cd myWebApp/
+
+#check current branches
+git branch
+
+git checkout -b feature/myFeature-1
+
+#make change
+ls *.cs
+echo 'class Program{}' > main.cs
+cat main.cs
+
+git status
+git add .
+git commit -m 'Feature 1 added'
+
+git push -u origin feature/myFeature-1
+
+#create PR 
+az repos pr create --title 'Feature-1 Review' -d "merge feature-1 to master" -s feature/myFeature-1
+az repos pr list --output table
+
+#vote in GUI or
+az repos pr set-vote --id 11 --vote approve
+#Merge PR
+
+# add the tag to merged feature1
+
+#start feature 2
+
+git checkout -b feature/myFeature-2
+
+#make change
+ls *.cs
+echo 'class Program1{}' > main.cs
+cat main.cs
+
+git status
+git add .
+git commit -m 'Feature 2 added'
+
+git push -u origin feature/myFeature-2
+az repos pr create --title 'Feature-2 Review' -d "merge feature-2 to master" -s feature/myFeature-2
+az repos pr list --output table
+
+##DO NOT MERGE PR 
+#start working on bug
+git fetch
+#create bug fix based on tagged release
+git checkout -b bug-1 <tag name>
+
+#do change + PR + Approve + merge
+#go back to feature2
+#finish on merge conflict
+#hint merge conflict can be resolved in vscode 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

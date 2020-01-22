@@ -1,0 +1,51 @@
+ version=$(az aks get-versions -l westeurope --query 'orchestrators[-1].orchestratorVersion' -o tsv)
+
+ #!!!! use specific vesion instead
+ #  in Kubernetes 1.16 some api has been changed.
+version=1.13.11
+
+AKS_RESOURCE_GROUP='aks'
+AKS_CLUSTER_NAME='jzscaks'
+ACR_NAME='jzsccr'
+
+az group create --name $AKS_RESOURCE_GROUP --location westeurope
+
+ az aks create --resource-group $AKS_RESOURCE_GROUP --name jzscaks --enable-addons monitoring --kubernetes-version $version --generate-ssh-keys --location westeurope
+
+ az acr create --resource-group $AKS_RESOURCE_GROUP --name jzsccr --sku Standard --location westeurope
+
+
+ # Get the id of the service principal configured for AKS
+ CLIENT_ID=$(az aks show --resource-group $AKS_RESOURCE_GROUP --name $AKS_CLUSTER_NAME --query "servicePrincipalProfile.clientId" --output tsv)
+
+ # Get the ACR registry resource id
+ ACR_ID=$(az acr show --name $ACR_NAME --resource-group $AKS_RESOURCE_GROUP --query "id" --output tsv)
+
+# Create role assignment
+az role assignment create --assignee $CLIENT_ID --role acrpull --scope $ACR_ID
+
+az sql server create -l westeurope -g $AKS_RESOURCE_GROUP -n jzcssql -u sqladmin -p P2ssw0rd1234
+
+az sql db create -g $AKS_RESOURCE_GROUP -s jzcssql -n mhcdb --service-objective S0
+
+#check sql db exists (imples sql server exists)
+az sql db list --server jzcssql --resource-group $AKS_RESOURCE_GROUP
+
+#get the fully qualified domain name for sql server
+az sql server list  -g $AKS_RESOURCE_GROUP --query '[].fullyQualifiedDomainName' -o tsv
+    # jzcssql.database.windows.net
+
+#get the container registry login server
+az acr list -g $AKS_RESOURCE_GROUP --query '[].loginServer' -o tsv
+    #jzsccr.azurecr.io
+
+## Perform manual steps
+
+az aks get-credentials -g $AKS_RESOURCE_GROUP -n jzscaks
+az aks install-cli
+
+kubectl status
+
+kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+
+az aks browse -g $AKS_RESOURCE_GROUP -n jzscaks

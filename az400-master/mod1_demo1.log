@@ -1,0 +1,25 @@
+mkdir webapp
+cd webapp/
+git init
+git config --global user.name "Test Dev"
+git config --global user.email "test@dev.com"
+dotnet new mvc
+code .
+
+git status
+git status  --verbose 
+
+git log --all
+git log --graph
+
+
+git checkout master
+git branch --delete feature-home-page 
+git merge feature-home-page 
+git branch --delete feature-home-page 
+git branch --list 
+git log
+git reset --hard  f3822e1e08bea1824fd2d9a5f571ab063582cb3b
+git log
+
+

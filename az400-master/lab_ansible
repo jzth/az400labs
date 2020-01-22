@@ -1,0 +1,43 @@
+#create a group with two web server
+az group create --resource-group ansible-webservers-rg --location westeurope
+az vm create --resource-group ansible-webservers-rg --name ansible-webserver-vm1 --image UbuntuLTS --generate-ssh-keys
+az vm create --resource-group ansible-webservers-rg --name ansible-webserver-vm2 --image UbuntuLTS --generate-ssh-keys
+
+az resource tag --tags nginx --id /subscriptions/273482d2-4a52-46fc-95bc-37c5d2a105d8/resourceGroups/ansible-webservers-rg/providers/Microsoft.Compute/virtualMachines/ansible-webserver-vm1
+273482d2-4a52-46fc-95bc-37c5d2a105d8
+
+#run in a cloud shell
+git clone git://github.com/ansible/ansible.git --recursive
+
+chmod +x ./ansible/contrib/inventory/azure_rm.py
+pip install jq
+pip install jq --user
+
+cd $HOME/git
+ansible -i ./ansible/contrib/inventory/azure_rm.py ansible-webservers-rg -m ping
+
+ python ./ansible/contrib/inventory/azure_rm.py --list | jq
+ vi ./ansible/contrib/inventory/azure_rm.ini
+
+ansible -i ./ansible/contrib/inventory/azure_rm.py all -m shell -a "/bin/uname -a"
+
+#CREATE ANSIBLE MASTER
+ az group create --name ansiblemaster-rg --location westeurope
+ az configure --defaults group=ansiblemaster-rg
+ az network vnet create -n ansibleVnet --address-prefixes 192.168.0.0/16 --subnet-name ansibleSubnet --subnet-prefix 192.168.1.0/24
+ az network public-ip create --name masterPip
+ az vm create -n ansibleMaster --image UbuntuLTS --vnet-name ansibleVnet --subnet ansibleSubnet --public-ip-address masterPip --authentication-type password --admin-username azureuser --admin-password Password0134!
+dress masterPip --authentication-type password --admin-username azureuser --admin-password Password0134!
+{
+  "fqdns": "",
+  "id": "/subscriptions/273482d2-4a52-46fc-95bc-37c5d2a105d8/resourceGroups/ansiblemaster-rg/providers/Microsoft.Compute/virtualMachines/ansibleMaster",
+  "location": "westeurope",
+  "macAddress": "00-0D-3A-AD-AF-97",
+  "powerState": "VM running",
+  "privateIpAddress": "192.168.1.4",
+  "publicIpAddress": "52.166.221.3",
+  "resourceGroup": "ansiblemaster-rg",
+  "zones": ""
+}
+ ssh-copy-id azureuser@<IPADDRESS>
+ ssh azureuser 
